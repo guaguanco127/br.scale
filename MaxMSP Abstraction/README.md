@@ -9,7 +9,7 @@ By Brian Riordan
 [https://www.brianriordanmusic.com/](https://www.brianriordanmusic.com/) 
   
 Repository for br.scale.1.1, with all related files, can be found here: [https://github.com/guaguanco127/br.scale](https://github.com/guaguanco127/br.scale)  
-Additional programs can be found here: [https://github.com/guaguanco127/plugins](https://github.com/guaguanco127/plugins)
+Additional programs can be found here: [https://github.com/guaguanco127/br.max](https://github.com/guaguanco127/br.max)
 
 These files were created with Max 9. 
 

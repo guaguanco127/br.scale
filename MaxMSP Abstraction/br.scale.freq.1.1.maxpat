@@ -1,5 +1,6 @@
 {
     "patcher": {
+"description" : "br.scale.freq.1.1 -- Created by Brian Riordan, guaguanco127@gmail.com -- https://github.com/guaguanco127/ -- Credits: the amplitude curve follows Stevens' power law of loudness (sones).",
         "fileversion": 1,
         "appversion": {
             "major": 9,
@@ -17,6 +18,8 @@
         ],
         "openinpresentation": 1,
         "boxes": [
+{"box": {"id": "obj-signature", "maxclass": "comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [320.0, -43.0, 520.0, 60.0], "text": "br.scale.freq.1.1 -- Created by Brian Riordan, guaguanco127@gmail.com\nhttps://github.com/guaguanco127/\nCredits: the amplitude curve follows Stevens' power law of loudness (sones).", "linecount": 3}},
+
             {
                 "box": {
                     "id": "obj-11",
@@ -477,7 +480,7 @@
             {
                 "box": {
                     "maxclass": "panel",
-                    "id": "obj-12",
+                    "id": "obj-12", "hint" : "br.scale.freq.1.1 -- Created by Brian Riordan, guaguanco127@gmail.com -- https://github.com/guaguanco127/ -- Credits: the amplitude curve follows Stevens' power law of loudness (sones).", "annotation" : "br.scale.freq.1.1 -- Created by Brian Riordan, guaguanco127@gmail.com -- https://github.com/guaguanco127/ -- Credits: the amplitude curve follows Stevens' power law of loudness (sones).",
                     "numinlets": 1,
                     "numoutlets": 0,
                     "outlettype": [],
