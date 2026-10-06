@@ -107,3 +107,7 @@ The first inlet is for the modulator signal. Every control has its own inlet, in
 | 4 | Input | Int | 0 = Bipolar, 1 = Unipolar | 0 |
 
 The outlet is the frequency in Hz, as a signal. Connect it to the frequency inlet of an oscillator (for example [cycle~]) or to the cutoff inlet of a filter that accepts a signal.
+
+## <a name="Credits"></a>Credits
+
+The amplitude curve follows Stevens' power law of loudness (sones).

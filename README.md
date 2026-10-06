@@ -36,3 +36,11 @@ A straight (linear) scaling sounds uneven, because our ears don't hear volume or
 **Volume:** A sound has to get about 10 dB louder to sound twice as loud. With a straight scaling, the middle of the LFO's movement is a gain of 0.5, which is only 6 dB down and sounds almost full. The tremolo seems to stay loud most of the time and then suddenly dip. br.scale.amp.1.1 puts the middle at 10 dB down, which sounds half as loud, so the movement sounds even all the way down to silence.
 
 **Frequency:** Our ears hear pitch in octaves (every doubling of frequency is one octave). With a straight scaling from 100 to 1600 Hz, the middle is 850 Hz: about three octaves above the bottom but less than one octave below the top, so the sweep seems to rush through the low end. br.scale.freq.1.1 puts the middle at 400 Hz, exactly two octaves from each end. Filters are heard the same way, so the same curve works for both.
+
+## <a name="Credits"></a>Credits
+
+The amplitude curve follows Stevens' power law of loudness (sones).
+
+## <a name="Credits"></a>Credits
+
+The amplitude curve follows Stevens' power law of loudness (sones).
