@@ -36,7 +36,13 @@
                         99.0,
                         20.0
                     ],
-                    "text": "scale to frequency"
+                    "text": "scale to frequency",
+                    "textcolor": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
                 }
             },
             {
@@ -136,7 +142,19 @@
                             "parameter_unitstyle": 3
                         }
                     },
-                    "varname": "Freq 1"
+                    "varname": "Freq 1",
+                    "textcolor": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "activeneedlecolor": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
                 }
             },
             {
@@ -179,7 +197,19 @@
                             "parameter_unitstyle": 3
                         }
                     },
-                    "varname": "Freq 2"
+                    "varname": "Freq 2",
+                    "textcolor": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "activeneedlecolor": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
                 }
             },
             {
@@ -362,6 +392,45 @@
                         30.0,
                         30.0
                     ]
+                }
+            },
+            {
+                "box": {
+                    "maxclass": "panel",
+                    "id": "obj-12",
+                    "numinlets": 1,
+                    "numoutlets": 0,
+                    "outlettype": [],
+                    "patching_rect": [
+                        400,
+                        250,
+                        128,
+                        128
+                    ],
+                    "parameter_enable": 0,
+                    "presentation": 1,
+                    "presentation_rect": [
+                        0.0,
+                        0.0,
+                        105.0,
+                        79.0
+                    ],
+                    "angle": 270.0,
+                    "bgcolor": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "bordercolor": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "mode": 0,
+                    "proportion": 0.39,
+                    "rounded": 0
                 }
             }
         ],
