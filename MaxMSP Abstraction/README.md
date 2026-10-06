@@ -1,5 +1,5 @@
 # Max/MSP Abstraction:   
-## br.scale.1.0
+## br.scale.1.1
 
 
 
@@ -8,7 +8,7 @@ By Brian Riordan
 [brianriordanmusic@gmail.com](mailto:brianriordanmusic@gmail.com)  
 [https://www.brianriordanmusic.com/](https://www.brianriordanmusic.com/) 
   
-Repository for br.scale.1.0, with all related files, can be found here: [https://github.com/guaguanco127/br.scale](https://github.com/guaguanco127/br.scale)  
+Repository for br.scale.1.1, with all related files, can be found here: [https://github.com/guaguanco127/br.scale](https://github.com/guaguanco127/br.scale)  
 Additional programs can be found here: [https://github.com/guaguanco127/plugins](https://github.com/guaguanco127/plugins)
 
 These files were created with Max 9. 
@@ -24,33 +24,43 @@ These files were created with Max 9.
 
 ## <a name="About"></a>About
 
-Two small Max/MSP abstractions that take a modulator, such as an LFO or an oscillator, moving between -1 and 1, and scale it so that the result **sounds** even to the ear.
+Two small Max/MSP abstractions that take a modulator, such as an LFO, an oscillator or a function generator, and scale it so that the result **sounds** even to the ear. The modulator can move between -1 and 1 (Bipolar) or between 0 and 1 (Unipolar), chosen with the Input switch.
 
 A straight (linear) scaling sounds uneven, because our ears don't hear volume or pitch in straight lines. These abstractions bend the curve so that equal movements of the modulator sound like equal changes.
 
-### br.scale.amp.1.0
+### Input: Bipolar / Unipolar
 
-Scales the modulator to a gain between 0 and 1 for volume (tremolo, swells). There are no settings. It always uses the same curve, chosen so that the loudness sounds even from silence to full volume.
+Both abstractions have an **Input** switch that tells them what range your modulator moves in:
 
-A sound has to get about 10 dB louder to sound twice as loud. With a straight scaling, the middle of the LFO's movement is a gain of 0.5, which is only 6 dB down and sounds almost full. The tremolo seems to stay loud most of the time and then suddenly dip. br.scale.amp.1.0 puts the middle at 10 dB down, which sounds half as loud, so the movement sounds even all the way down to silence.
+- **Bipolar** (the default): -1 to 1, like [cycle~] or most LFOs.
+- **Unipolar:** 0 to 1, like a function generator, an envelope or [phasor~].
 
-| Modulator | -1 | -0.5 | 0 | 0.5 | 1 |
+The curves are the same either way: the bottom of the range is the bottom of the curve, and the top is the top. If the switch doesn't match your modulator, only half of the curve gets used (for example, a 0 to 1 envelope on Bipolar never goes below the middle). Flipping the switch while sound is playing crossfades over 20 ms, so it never clicks.
+
+### br.scale.amp.1.1
+
+Scales the modulator to a gain between 0 and 1 for volume (tremolo, swells). Apart from the Input switch, there are no settings. It always uses the same curve, chosen so that the loudness sounds even from silence to full volume.
+
+A sound has to get about 10 dB louder to sound twice as loud. With a straight scaling, the middle of the LFO's movement is a gain of 0.5, which is only 6 dB down and sounds almost full. The tremolo seems to stay loud most of the time and then suddenly dip. br.scale.amp.1.1 puts the middle at 10 dB down, which sounds half as loud, so the movement sounds even all the way down to silence.
+
+| Modulator (Bipolar) | -1 | -0.5 | 0 | 0.5 | 1 |
 |---|---|---|---|---|---|
+| Modulator (Unipolar) | 0 | 0.25 | 0.5 | 0.75 | 1 |
 | Gain | 0 (silence) | 0.1 | 0.32 (-10 dB, half as loud) | 0.62 | 1 (full) |
 
-If you want a curve you can adjust, use Max's [scale~] object instead. br.scale.amp.1.0 is meant to be plugged in and just work.
+If you want a curve you can adjust, use Max's [scale~] object instead. br.scale.amp.1.1 is meant to be plugged in and just work.
 
-### br.scale.freq.1.0
+### br.scale.freq.1.1
 
 Scales the modulator to a frequency between "Freq 1" and "Freq 2" in Hz, for an oscillator's pitch (vibrato, sirens) or a filter's cutoff (filter sweeps). 
 
-Our ears hear pitch in octaves (every doubling of frequency is one octave). With a straight scaling from 100 to 1600 Hz, the middle is 850 Hz: about three octaves above the bottom but less than one octave below the top, so the sweep seems to rush through the low end. br.scale.freq.1.0 puts the middle at 400 Hz, exactly two octaves from each end. Filters are heard the same way, so the same curve works for both.
+Our ears hear pitch in octaves (every doubling of frequency is one octave). With a straight scaling from 100 to 1600 Hz, the middle is 850 Hz: about three octaves above the bottom but less than one octave below the top, so the sweep seems to rush through the low end. br.scale.freq.1.1 puts the middle at 400 Hz, exactly two octaves from each end. Filters are heard the same way, so the same curve works for both.
 
 **Freq 1:** One end of the frequency range, in Hz, between 20 and 20000. The default is 200 Hz.
 
 **Freq 2:** The other end of the frequency range, in Hz, between 20 and 20000. The default is 2000 Hz. 
 
-Either one can be the larger. Whichever is lower is always where the modulator's -1 lands, so you can turn the dials past each other freely. Turning a dial glides to the new range over 20 ms, so it never clicks. The output never goes above half the sample rate, so it is safe to send to a filter.
+Either one can be the larger. Whichever is lower is always where the bottom of the modulator lands (-1 on Bipolar, 0 on Unipolar), so you can turn the dials past each other freely. Turning a dial glides to the new range over 20 ms, so it never clicks. The output never goes above half the sample rate, so it is safe to send to a filter.
 
 
 
@@ -64,33 +74,36 @@ By saving your logic in an abstraction, you can create modules that can be used 
 
 1. Make sure you have Max 9 installed in your computer. And, make sure you are using a Max patch that is inside of a folder.  
 
-2. Copy and paste br.scale.amp.1.0.maxpat and/or br.scale.freq.1.0.maxpat inside of the same folder as the Max patch you are using. The two are independent: each one works without the other.
+2. Copy and paste br.scale.amp.1.1.maxpat and/or br.scale.freq.1.1.maxpat inside of the same folder as the Max patch you are using. The two are independent: each one works without the other.
 
-3. **br.scale.amp.1.0:** Create an object called br.scale.amp.1.0 (for example: [br.scale.amp.1.0], do not include brackets). It has no controls, so no bpatcher is needed.
+3. **br.scale.amp.1.1:** To use the built-in Input switch, create a bpatcher object. Then, go inside of its inspector, select "choose" next to "Patcher File" and select the br.scale.amp.1.1.maxpat located within the same folder as your project. Size the bpatcher to 83 x 50 to show the switch. Alternatively, create an object called br.scale.amp.1.1 (for example: [br.scale.amp.1.1], do not include brackets) and set the Input through its second inlet.
 
-4. **br.scale.freq.1.0:** To use the built-in dials, create a bpatcher object. Then, go inside of its inspector, select "choose" next to "Patcher File" and select the br.scale.freq.1.0.maxpat located within the same folder as your project. Size the bpatcher to 105 x 79 to show all of the controls.
+4. **br.scale.freq.1.1:** To use the built-in dials, create a bpatcher object. Then, go inside of its inspector, select "choose" next to "Patcher File" and select the br.scale.freq.1.1.maxpat located within the same folder as your project. Size the bpatcher to 105 x 100 to show all of the controls.
 
-5. Alternatively, create an object called br.scale.freq.1.0 (for example: [br.scale.freq.1.0], do not include brackets) and control it through its inlets (see below).
+5. Alternatively, create an object called br.scale.freq.1.1 (for example: [br.scale.freq.1.1], do not include brackets) and control it through its inlets (see below).
 
 ## <a name="Use"></a>How To Use
 
-### br.scale.amp.1.0
-
-| Inlet / Outlet | Name | Type | Range |
-|---|---|---|---|
-| Inlet 1 | Modulator In | Signal | -1 to 1 (anything outside is clipped) |
-| Outlet 1 | Gain | Signal | 0 to 1 |
-
-Connect the outlet to the right inlet of a [*~] object, and your audio to its left inlet.
-
-### br.scale.freq.1.0
-
-The first inlet is for the modulator signal. Every control has its own inlet, in the same order as the controls. Sending a value to an inlet moves its on-screen dial too, so the display always matches the sound. Hover over an inlet in Max to see its range and default.
+### br.scale.amp.1.1
 
 | Inlet | Control | Type | Range | Default |
 |---|---|---|---|---|
-| 1 | Modulator In | Signal | -1 to 1 (anything outside is clipped) | |
+| 1 | Modulator In | Signal | -1 to 1 (Bipolar) or 0 to 1 (Unipolar); anything outside is clipped | |
+| 2 | Input | Int | 0 = Bipolar, 1 = Unipolar | 0 |
+
+The outlet is the gain, as a signal from 0 to 1. Sending a value to the Input inlet moves the on-screen switch too.
+
+Connect the outlet to the right inlet of a [*~] object, and your audio to its left inlet.
+
+### br.scale.freq.1.1
+
+The first inlet is for the modulator signal. Every control has its own inlet, in the same order as the controls. Sending a value to an inlet moves its on-screen control too, so the display always matches the sound. Hover over an inlet in Max to see its range and default.
+
+| Inlet | Control | Type | Range | Default |
+|---|---|---|---|---|
+| 1 | Modulator In | Signal | -1 to 1 (Bipolar) or 0 to 1 (Unipolar); anything outside is clipped | |
 | 2 | Freq 1 | Float | 20 - 20000 Hz | 200 |
 | 3 | Freq 2 | Float | 20 - 20000 Hz | 2000 |
+| 4 | Input | Int | 0 = Bipolar, 1 = Unipolar | 0 |
 
 The outlet is the frequency in Hz, as a signal. Connect it to the frequency inlet of an oscillator (for example [cycle~]) or to the cutoff inlet of a filter that accepts a signal.

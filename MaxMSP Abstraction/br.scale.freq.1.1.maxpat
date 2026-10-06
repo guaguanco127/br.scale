@@ -47,7 +47,7 @@
             },
             {
                 "box": {
-                    "comment": "Modulator In (Signal) bipolar -1 to 1. LFO or oscillator. Clipped to -1 to 1",
+                    "comment": "Modulator In (Signal) -1 to 1 when Input is Bipolar, 0 to 1 when Input is Unipolar. LFO, oscillator or function generator. Clipped to the chosen range",
                     "id": "obj-1",
                     "index": 0,
                     "maxclass": "inlet",
@@ -298,12 +298,12 @@
                                         30.0,
                                         22.0
                                     ],
-                                    "text": "in 1 @comment modulator -1 to 1"
+                                    "text": "in 1 @comment modulator"
                                 }
                             },
                             {
                                 "box": {
-                                    "code": "// br.scale.freq 1.0 -- bipolar modulator -1..1 to frequency on an exponential octave-even curve\n// Works in octaves via log2 so equal steps of the modulator sound like equal pitch steps\n// on an oscillator or equal brightness steps on a filter.\n// Freq 1 / Freq 2 are a range pair: whichever is lower is always the bottom at -1.\nParam freq1(200, min=0.01, max=20000);\nParam freq2(2000, min=0.01, max=20000);\nHistory lo_s(0);\nHistory hi_s(0);\nHistory primed(0);\nlo_prev = lo_s;\nhi_prev = hi_s;\nwas_primed = primed;\nl1 = log2(freq1);\nl2 = log2(freq2);\nlo_t = min(l1, l2);\nhi_t = max(l1, l2);\n// 20 ms glide in octaves on dial moves so range changes never click\nk = 1 - exp(-1 / mstosamps(20));\nlo = was_primed ? lo_prev + (lo_t - lo_prev) * k : lo_t;\nhi = was_primed ? hi_prev + (hi_t - hi_prev) * k : hi_t;\nu = (clamp(in1, -1, 1) + 1) * 0.5;\nf = exp2(lo + (hi - lo) * u);\nout1 = min(f, samplerate * 0.49);\nlo_s = lo;\nhi_s = hi;\nprimed = 1;\n",
+                                    "code": "// br.scale.freq 1.1 -- bipolar -1..1 or unipolar 0..1 modulator to frequency on an exponential octave-even curve\n// Works in octaves via log2 so equal steps of the modulator sound like equal pitch steps\n// on an oscillator or equal brightness steps on a filter.\n// Freq 1 / Freq 2 are a range pair: whichever is lower is always the bottom of the sweep.\nParam freq1(200, min=0.01, max=20000);\nParam freq2(2000, min=0.01, max=20000);\nParam unipolar(0, min=0, max=1);\nHistory lo_s(0);\nHistory hi_s(0);\nHistory w_s(0);\nHistory primed(0);\nlo_prev = lo_s;\nhi_prev = hi_s;\nw_prev = w_s;\nwas_primed = primed;\nl1 = log2(freq1);\nl2 = log2(freq2);\nlo_t = min(l1, l2);\nhi_t = max(l1, l2);\n// 20 ms glide in octaves on dial moves so range changes never click\nk = 1 - exp(-1 / mstosamps(20));\nlo = was_primed ? lo_prev + (lo_t - lo_prev) * k : lo_t;\nhi = was_primed ? hi_prev + (hi_t - hi_prev) * k : hi_t;\n// Input range: unipolar 0 = bipolar -1..1, 1 = unipolar 0..1.\n// Switching crossfades the two readings over 20 ms so it never clicks.\nw = was_primed ? w_prev + (unipolar - w_prev) * k : unipolar;\nu_bi = (clamp(in1, -1, 1) + 1) * 0.5;\nu_uni = clamp(in1, 0, 1);\nu = u_bi + (u_uni - u_bi) * w;\nf = exp2(lo + (hi - lo) * u);\nout1 = min(f, samplerate * 0.49);\nlo_s = lo;\nhi_s = hi;\nw_s = w;\nprimed = 1;\n",
                                     "fontface": 0,
                                     "fontname": "<Monospaced>",
                                     "fontsize": 12.0,
@@ -396,6 +396,86 @@
             },
             {
                 "box": {
+                    "maxclass": "inlet",
+                    "id": "obj-13",
+                    "numinlets": 0,
+                    "numoutlets": 1,
+                    "outlettype": [
+                        ""
+                    ],
+                    "patching_rect": [
+                        260,
+                        15,
+                        30.0,
+                        30.0
+                    ],
+                    "comment": "Input Range (Int) 0 = Bipolar (-1 to 1), 1 = Unipolar (0 to 1). Default 0"
+                }
+            },
+            {
+                "box": {
+                    "maxclass": "newobj",
+                    "id": "obj-15",
+                    "numinlets": 1,
+                    "numoutlets": 1,
+                    "outlettype": [
+                        ""
+                    ],
+                    "patching_rect": [
+                        260,
+                        115,
+                        128.0,
+                        22.0
+                    ],
+                    "text": "prepend unipolar",
+                    "fontname": "Arial",
+                    "fontsize": 12.0
+                }
+            },
+            {
+                "box": {
+                    "maxclass": "live.text",
+                    "id": "obj-16",
+                    "numinlets": 1,
+                    "numoutlets": 2,
+                    "outlettype": [
+                        "",
+                        ""
+                    ],
+                    "patching_rect": [
+                        260.0,
+                        54.0,
+                        44.0,
+                        15.0
+                    ],
+                    "parameter_enable": 1,
+                    "presentation": 1,
+                    "presentation_rect": [
+                        28.0,
+                        76.0,
+                        49.0,
+                        21.0
+                    ],
+                    "texton": "Unipolar",
+                    "saved_attribute_attributes": {
+                        "valueof": {
+                            "parameter_enum": [
+                                "val1",
+                                "val2"
+                            ],
+                            "parameter_longname": "Input",
+                            "parameter_mmax": 1,
+                            "parameter_modmode": 0,
+                            "parameter_shortname": "Input",
+                            "parameter_type": 2
+                        }
+                    },
+                    "varname": "Input",
+                    "text": "Bipolar"
+                }
+            },
+            {
+                "box": {
                     "maxclass": "panel",
                     "id": "obj-12",
                     "numinlets": 1,
@@ -413,7 +493,7 @@
                         0.0,
                         0.0,
                         105.0,
-                        79.0
+                        100.0
                     ],
                     "angle": 270.0,
                     "bgcolor": [
@@ -527,6 +607,42 @@
                     ],
                     "source": [
                         "obj-8",
+                        0
+                    ]
+                }
+            },
+            {
+                "patchline": {
+                    "source": [
+                        "obj-15",
+                        0
+                    ],
+                    "destination": [
+                        "obj-8",
+                        0
+                    ]
+                }
+            },
+            {
+                "patchline": {
+                    "source": [
+                        "obj-13",
+                        0
+                    ],
+                    "destination": [
+                        "obj-16",
+                        0
+                    ]
+                }
+            },
+            {
+                "patchline": {
+                    "source": [
+                        "obj-16",
+                        0
+                    ],
+                    "destination": [
+                        "obj-15",
                         0
                     ]
                 }
